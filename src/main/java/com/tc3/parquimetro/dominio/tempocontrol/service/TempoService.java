@@ -31,8 +31,10 @@ public class TempoService {
     public void delete(Long id){}
 
     private void mapperDtoParaEntidade(TempoDto dto, Tempo entidade){
+        entidade.setTipoTempo(dto.getTipoTempo());
         entidade.setInicio(dto.getInicio());
         entidade.setFim(dto.getFim());
+        entidade.setTempoContratado(dto.getTempoContratado());
     }
 
 
