@@ -13,7 +13,7 @@ public class TempoDto {
 
     private Long id;
     @JsonProperty
-    private TipoTempo tipoTempo; // Seleciona o tipo de Tempo se FIXO ou VARIAVEL
+    private Tempo.TipoTempo tipoTempo; // Seleciona o tipo de Tempo se FIXO ou VARIAVEL
     @JsonProperty
     private LocalDateTime inicio;
     @JsonProperty
@@ -26,23 +26,23 @@ public class TempoDto {
         variavel
     }
 
-    public TempoDto(){}
-
-    public TempoDto(LocalDateTime fim, int tempoContratado, TipoTempo tipoTempo) {
+    public TempoDto(int tempoContratado){
+        this.tipoTempo = tipoTempo;
         this.inicio = LocalDateTime.now();
         this.tempoContratado = tempoContratado;
-        this.tipoTempo = tipoTempo;
         this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
-
     }
 
-    public TempoDto(Long id, int tempoContratado, TipoTempo tipoTempo){
+    public TempoDto(Long id, int tempoContratado, Tempo.TipoTempo tipoTempo){
         this.id = id;
+        this.tipoTempo = tipoTempo;
         this.inicio = LocalDateTime.now();
-        this.tempoContratado = (tipoTempo == TipoTempo.fixo) ? tempoContratado : 0;
-        if (tipoTempo == TipoTempo.fixo) {
+
+
+        if (tipoTempo == Tempo.TipoTempo.fixo) {
+            this.tempoContratado = tempoContratado;
             this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
-        } else if (tipoTempo == TipoTempo.variavel) {
+        } else if (tipoTempo == Tempo.TipoTempo.variavel) {
             // Lógica para tempo variável (caso necessário).
         }
     }

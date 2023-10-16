@@ -18,7 +18,7 @@ public class Tempo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private TempoDto.TipoTempo tipoTempo; // Seleciona o tipo de Tempo se FIXO ou VARIAVEL
+    private TipoTempo tipoTempo; // Seleciona o tipo de Tempo se FIXO ou VARIAVEL
     private LocalDateTime inicio;
     private LocalDateTime fim;
     private int tempoContratado; // Horas contratadas no modelo Tempo Fixo
@@ -31,16 +31,17 @@ public class Tempo {
     public Tempo(){}
     public Tempo(Long id, int tempoContratado, TipoTempo tipoTempo){
         this.id = id;
+        this.tipoTempo = tipoTempo;
         this.inicio = LocalDateTime.now();
-        //this.tempoContratado = tempoContratado;
-        //this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
-        this.tempoContratado = (tipoTempo == TipoTempo.fixo) ? tempoContratado : 0;
+        this.tempoContratado = tempoContratado;
+        this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
 
-        if (tipoTempo == TipoTempo.fixo) {
+        /*if (tipoTempo == TipoTempo.fixo) {
+            this.tempoContratado = tempoContratado;
             this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
         } else if (tipoTempo == TipoTempo.variavel) {
             // Lógica para tempo variável (caso necessário).
-        }
+        }*/
 
     }
 
@@ -50,7 +51,6 @@ public class Tempo {
         this.inicio = dto.getInicio();
         this.fim = dto.getFim();
         this.tempoContratado = dto.getTempoContratado();
-        //this.tempoContratado = (int) this.inicio.until(this.fim, ChronoUnit.HOURS);
     }
 
 }
