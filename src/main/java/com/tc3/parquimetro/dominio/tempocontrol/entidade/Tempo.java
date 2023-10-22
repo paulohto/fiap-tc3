@@ -22,6 +22,7 @@ public class Tempo {
     private LocalDateTime inicio;
     private LocalDateTime fim;
     private int tempoContratado; // Horas contratadas no modelo Tempo Fixo
+    private int tempoAdicional;
 
     public enum TipoTempo {
         fixo,
@@ -29,12 +30,13 @@ public class Tempo {
     }
 
     public Tempo(){}
-    public Tempo(Long id, int tempoContratado, TipoTempo tipoTempo){
+    public Tempo(Long id, int tempoContratado, TipoTempo tipoTempo, int tempoAdicional){
         this.id = id;
         this.tipoTempo = tipoTempo;
         this.inicio = LocalDateTime.now();
         this.tempoContratado = tempoContratado;
         this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
+        this.tempoContratado = tempoAdicional;
 
         /*if (tipoTempo == TipoTempo.fixo) {
             this.tempoContratado = tempoContratado;
@@ -42,7 +44,6 @@ public class Tempo {
         } else if (tipoTempo == TipoTempo.variavel) {
             // Lógica para tempo variável (caso necessário).
         }*/
-
     }
 
     public Tempo(TempoDto dto){
@@ -51,6 +52,7 @@ public class Tempo {
         this.inicio = dto.getInicio();
         this.fim = dto.getFim();
         this.tempoContratado = dto.getTempoContratado();
+        this.tempoAdicional = dto.getTempoAdicional();
     }
 
 }
