@@ -1,6 +1,7 @@
 package com.tc3.parquimetro.dominio.tempocontrol.entidade;
 
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoDto;
+import com.tc3.parquimetro.dominio.tempocontrol.emun.TipoTempo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,27 +24,16 @@ public class Tempo {
     private LocalDateTime fim;
     private int tempoContratado; // Horas contratadas no modelo Tempo Fixo
     private int tempoAdicional;
+    private Double bill;
 
-    public enum TipoTempo {
-        fixo,
-        variavel
-    }
 
     public Tempo(){}
     public Tempo(Long id, int tempoContratado, TipoTempo tipoTempo, int tempoAdicional){
         this.id = id;
         this.tipoTempo = tipoTempo;
         this.inicio = LocalDateTime.now();
-        this.tempoContratado = tempoContratado;
         this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
         this.tempoContratado = tempoAdicional;
-
-        /*if (tipoTempo == TipoTempo.fixo) {
-            this.tempoContratado = tempoContratado;
-            this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
-        } else if (tipoTempo == TipoTempo.variavel) {
-            // Lógica para tempo variável (caso necessário).
-        }*/
     }
 
     public Tempo(TempoDto dto){
