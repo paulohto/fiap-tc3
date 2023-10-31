@@ -1,5 +1,6 @@
 package com.tc3.parquimetro.dominio.tempocontrol.controller;
 
+import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoCheckOutDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.service.TempoService;
 import jakarta.validation.Valid;
@@ -27,6 +28,13 @@ public class TempoController {
     public ResponseEntity<TempoDto> update(@RequestBody TempoDto tempo, @PathVariable Long id){
         var tempoUpdated =tempoService.update(id,tempo);
         return ResponseEntity.ok(tempoUpdated);
+    }
+
+    @PostMapping("/{id}/exit")
+    public ResponseEntity<TempoCheckOutDto> checkOut(@PathVariable Long id) {
+        // ToDo verificar se já não esta fechado e lançar exceção
+        var tempoCheckOut = tempoService.checkOut(id);
+        return ResponseEntity.ok(tempoCheckOut);
     }
 
 }

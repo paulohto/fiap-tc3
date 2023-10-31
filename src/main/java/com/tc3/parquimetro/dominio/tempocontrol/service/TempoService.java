@@ -1,5 +1,6 @@
 package com.tc3.parquimetro.dominio.tempocontrol.service;
 
+import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoCheckOutDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.Tempo;
 import com.tc3.parquimetro.dominio.tempocontrol.repositorio.ITempoRepositorio;
@@ -9,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class TempoService {
 
     @Autowired
     private ITempoRepositorio repoTempo;
-    //public Page<TempoDto> findAll(PageRequest page){}
-    //public TempoDto findById(Long id){}
 
     @Transactional
     public TempoDto save(TempoDto tempo){
@@ -30,10 +31,22 @@ public class TempoService {
         try {
             Tempo entidade = repoTempo.getReferenceById(id);
             mapperDtoParaEntidadeTempoAdd(tempo, entidade);
-            //entidade.setTempoAdicional(tempo.getTempoAdicional());
-            //entidade.setTipoTempo(entidade.getTipoTempo());
 
             return new TempoDto(entidade);
+        } catch(EntityNotFoundException e){
+            throw new ControllerNotFoundException("Id não encontrado, id: " + id);
+        }
+    }
+
+    @Transactional
+    public TempoCheckOutDto checkOut(Long id) {
+        try {
+            Tempo entidade = repoTempo.getReferenceById(id);
+            entidade.setFim(LocalDateTime.now());
+            // ToDo verificar se o tempo é FIXO ou VARIAVEL
+            entidade.setBill(TempoCheckOut.getBill(entidade));
+            var tempoSalvo = repoTempo.save(entidade);
+            return new TempoCheckOutDto(tempoSalvo);
         } catch(EntityNotFoundException e){
             throw new ControllerNotFoundException("Id não encontrado, id: " + id);
         }
@@ -43,10 +56,9 @@ public class TempoService {
 
     private void mapperDtoParaEntidade(TempoDto dto, Tempo entidade){
         entidade.setTipoTempo(dto.getTipoTempo());
-        entidade.setInicio(dto.getInicio());
+        entidade.setInicio(LocalDateTime.now());
         entidade.setFim(dto.getFim());
         entidade.setTempoContratado(dto.getTempoContratado());
-        //entidade.setTempoAdicional(dto.getTempoAdicional());
     }
 
     private void mapperDtoParaEntidadeTempoAdd(TempoDto dto, Tempo entidade){
@@ -56,5 +68,4 @@ public class TempoService {
         entidade.setTempoContratado(entidade.getTempoContratado()); // fixado
         entidade.setTempoAdicional(dto.getTempoAdicional());
     }
-
 }
