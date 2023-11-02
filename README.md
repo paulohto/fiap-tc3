@@ -29,7 +29,7 @@ ME_CONFIG_MONGODB_SERVER=mongodb
 ```
 
 > **_NOTA:_**  Ao startar a aplicação, para acessar a api basta acessar a seguinte url a depender da porta escolhida
-> na variável SERVER_PORT. Ex: http://localhost:8081/swagger-ui/index.html#/
+> na variável SERVER_PORT. Ex: http://localhost:8080/swagger-ui/index.html
 
 ## Squad
 Grupo 21

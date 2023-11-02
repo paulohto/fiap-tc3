@@ -14,6 +14,8 @@ public class Pagamento {
     @Column(name = "id", nullable = false)
     private String id;
 
+    private String placa;
+
     @ManyToOne
     @JoinColumn(name = "veiculo_id")
     private Veiculo veiculo;
