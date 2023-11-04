@@ -1,9 +1,13 @@
 package com.tc3.parquimetro.dominio.tempocontrol.controller;
 
+import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddTempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoDto;
+import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoTempoAddDto;
 import com.tc3.parquimetro.dominio.tempocontrol.service.TempoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -15,6 +19,16 @@ public class TempoController {
 
     @Autowired
     private TempoService tempoService;
+
+    @GetMapping("/tempo")
+    public ResponseEntity<Page<TempoTempoAddDto>> findAll(
+            @RequestParam(value = "pagina", defaultValue = "0") Integer pagina,
+            @RequestParam(value = "tamanho", defaultValue = "10") Integer tamanho
+    ){
+        PageRequest pageRequest = PageRequest.of(pagina, tamanho);
+        var tempos = tempoService.findAll(pageRequest);
+        return ResponseEntity.ok(tempos);
+    }
 
     @PostMapping("/tempo")
     public ResponseEntity<TempoDto> save(@Valid @RequestBody TempoDto tempo){
