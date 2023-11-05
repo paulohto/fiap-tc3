@@ -1,5 +1,6 @@
 package com.tc3.parquimetro.dominio.tempocontrol.service;
 
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddTempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.TempoAdd;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.temporal.ChronoUnit;
 
 
 @Service
@@ -47,8 +50,18 @@ public class TempoAddService {
     public TempoAddTempoDto save(TempoAddTempoDto tempoadd) {
         try {
             var tempo = repoTempo.getReferenceById(tempoadd.getTempo().getId());
+
+            ///
+
+                tempoadd.setNovoInicio(tempo.getFim()); // salva início de tempo add como Fim de Tempo.
+                var tadd = tempoadd.getTempoAdicional();
+                tempoadd.setNovoFim( tempo.getFim().plus( tadd, ChronoUnit.HOURS) );
+
+            ///
+
             var entidade = TempoAddTempoDto.paraEntidade(tempoadd, tempo);
             var tempoAddSalvo = repoTempoAdd.save(entidade);
+
             return TempoAddTempoDto.daEntidade(tempoAddSalvo);
         }catch (DataIntegrityViolationException e){
             throw  new DatabaseException("Tempo não encontrado");

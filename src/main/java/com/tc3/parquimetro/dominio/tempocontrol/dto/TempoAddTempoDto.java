@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Getter @Setter
 public class TempoAddTempoDto {
@@ -24,8 +25,10 @@ public class TempoAddTempoDto {
 
     public TempoAddTempoDto(Long id, LocalDateTime novoInicio, LocalDateTime novoFim, int tempoAdicional, TempoDto tempo) {
         this.id = id;
-        this.novoInicio = LocalDateTime.now();
-        this.novoFim = novoFim;
+        //this.novoInicio = LocalDateTime.now();
+        this.novoInicio = tempo.getFim();
+        //this.novoFim = novoFim;
+        this.novoFim = novoInicio.plus(tempoAdicional, ChronoUnit.HOURS);
         this.tempoAdicional = tempoAdicional;
         this.tempo = tempo;
     }
@@ -50,7 +53,8 @@ public class TempoAddTempoDto {
             Tempo tempo
     ) {
         tempoAdd.setTempoAdicional(dto.getTempoAdicional());
-        tempoAdd.setNovoInicio(dto.getNovoInicio());
+        //tempoAdd.setNovoInicio(dto.getNovoInicio());
+        tempoAdd.setNovoInicio(tempo.getFim()); // TESTE
         tempoAdd.setNovoFim(dto.getNovoFim());
         tempoAdd.setTempo(tempo);
         return tempoAdd;

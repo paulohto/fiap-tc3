@@ -25,10 +25,11 @@ public class TempoDto {
     private LocalDateTime fim;
     @JsonProperty
     private int tempoContratado;
-    @JsonProperty
-    private int tempoAdicional;
-    @JsonProperty
-    private LocalDateTime fimAdd; //
+    //@JsonProperty
+    //private int tempoAdicional;
+
+    //@JsonProperty
+    //private LocalDateTime fimAdd; // CAMPO PRA ADICIONAR TOTAL DE TEMPO: CONTRATADO FIXO + ADICIONAIS
 
     public TempoDto(int tempoContratado){
         //this.tipoTempo = tipoTempo;
@@ -41,7 +42,7 @@ public class TempoDto {
         //this.fimAdd = fim; // fimAdd deve ser igual a fim
     }
 
-    public TempoDto(Long id, int tempoContratado, TipoTempo tipoTempo, int tempoAdicional){
+    public TempoDto(Long id, int tempoContratado, TipoTempo tipoTempo /*, int tempoAdicional*/){
         this.id = id;
         this.tipoTempo = tipoTempo;
         //this.inicio = LocalDateTime.now();
@@ -49,10 +50,7 @@ public class TempoDto {
         if ( tipoTempo == TipoTempo.FIXO ) {
             this.inicio = LocalDateTime.now();
             this.tempoContratado = tempoContratado;
-            this.tempoAdicional = tempoAdicional;
-            //this.fim = inicio.plus(tempoContratado + tempoAdicional, ChronoUnit.HOURS);
-            this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS); // OK
-            this.fimAdd = this.fim.plus(tempoAdicional, ChronoUnit.HOURS);
+              this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS); // OK
 
         } else if (tipoTempo == TipoTempo.VARIAVEL) {
             this.inicio = LocalDateTime.now();

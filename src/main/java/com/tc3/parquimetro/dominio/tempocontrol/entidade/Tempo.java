@@ -47,32 +47,6 @@ public class Tempo {
         //this.fimAdd = fim.plus( tempoAdicional, ChronoUnit.HOURS );
     }
 
-    /*public Tempo(TempoDto dto){
-        this.id = dto.getId();
-        this.tipoTempo = dto.getTipoTempo();
-        this.inicio = dto.getInicio();
-        this.fim = dto.getFim();
-        this.tempoContratado = dto.getTempoContratado();
-        //this.tempoAdicional = dto.getTempoAdicional();
-        //this.fimAdd = dto.getFimAdd();
-    }*/
-
-    /*public Tempo(TempoAddTempoDto dto, TempoAdd tempoAdd){
-        this.id = dto.getId();
-        //this.tipoTempo = dto.getTipoTempo();
-        //this.inicio = dto.getInicio();
-        //this.fim = dto.getFim();
-        //this.tempoContratado = dto.getTempoContratado();
-        //this.tempoAdicional = dto.getTempoAdicional();
-        //this.fimAdd = dto.getFimAdd();
-        //this.tempoAdd = tempoAdd;
-        if (this.tempoAdd == null) {
-            this.tempoAdd = new ArrayList<>();
-        }
-        this.tempoAdd.add(tempoAdd);
-    }*/
-
-
     public Tempo(TempoAddTempoDto dto, Tempo tempo) {
 
     }
