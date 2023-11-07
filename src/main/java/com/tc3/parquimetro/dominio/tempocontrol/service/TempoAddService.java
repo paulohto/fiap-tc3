@@ -16,7 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 
 @Service
@@ -26,6 +28,10 @@ public class TempoAddService {
     private ITempoAddRepositorio repoTempoAdd;
     @Autowired
     private ITempoRepositorio repoTempo;
+
+    private LocalDateTime fimTempoAdd;
+    private Long idAdd = Long.valueOf(1);
+    //private Integer c = 1;
 
     /*public TempoAddDto save(TempoAddDto tempoadd) {
         var entidade =TempoAddDto.paraEntidade(tempoadd);
@@ -50,14 +56,35 @@ public class TempoAddService {
     public TempoAddTempoDto save(TempoAddTempoDto tempoadd) {
         try {
             var tempo = repoTempo.getReferenceById(tempoadd.getTempo().getId());
+            var taddrepo = repoTempoAdd;
 
-            ///
-
+            //
+            /*if ( taddrepo.count() == 0 ) {
                 tempoadd.setNovoInicio(tempo.getFim()); // salva início de tempo add como Fim de Tempo.
                 var tadd = tempoadd.getTempoAdicional();
-                tempoadd.setNovoFim( tempo.getFim().plus( tadd, ChronoUnit.HOURS) );
+                tempoadd.setNovoFim(tempo.getFim().plus(tadd, ChronoUnit.HOURS));
+            } else {
+                var x = repoTempoAdd.getReferenceById(tempo.getId());
+                //var x = repoTempoAdd.getReferenceById(tempoadd.getId());
+                tempoadd.setNovoInicio(x.getNovoFim());
+                var tadd = tempoadd.getTempoAdicional();
+                tempoadd.setNovoFim( x.getNovoFim().plus(tadd, ChronoUnit.HOURS));
+            }*/
+            if ( tempo.getTempoAdd().isEmpty() ) {
+                tempoadd.setNovoInicio(tempo.getFim());
+                var tadd = tempoadd.getTempoAdicional();
+                tempoadd.setNovoFim(tempoadd.getNovoInicio().plus(tadd, ChronoUnit.HOURS));
 
-            ///
+            } else{
+               // if ( tempoadd.getId() == 2 ) {
+                var ultimoTempoAdd = taddrepo.findById(tempo.getId());
+                tempoadd.setNovoInicio(ultimoTempoAdd.get().getNovoFim());
+                var tadd = tempoadd.getTempoAdicional();
+                tempoadd.setNovoFim(ultimoTempoAdd.get().getNovoFim().plus(tadd, ChronoUnit.HOURS));
+            }
+
+
+            //
 
             var entidade = TempoAddTempoDto.paraEntidade(tempoadd, tempo);
             var tempoAddSalvo = repoTempoAdd.save(entidade);

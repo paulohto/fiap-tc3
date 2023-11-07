@@ -20,7 +20,7 @@ public class TempoAddDto {
     @JsonProperty
     private int tempoAdicional;
 
-    private TempoDto tempo;
+    private static TempoDto tempo;
     //private LocalDateTime novini; // teste para pegar fim da class tempo
 
     public TempoAddDto(){}
