@@ -12,20 +12,11 @@ calcular os valores devido ao uso dos parquímetros e armazenar essas informaç�
 1° - No terminal, rode os seguintes comandos (de preferência na mesma ordem):
 
 ```
-docker network create redelocal --driver=bridge  
-docker-compose up
 ```
 
 2° - Insira essas variáveis de ambiente na aplicação, basta copiar e colar:
 
 ```
-SPRING_DATA_SOURCE_URL=jdbc:mysql://localhost:3306/db_tc3
-SPRING_DATA_SOURCE_USERNAME=admin
-SPRING_DATA_SOURCE_PASSWORD=admin
-SERVER_PORT=8080
-ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
-ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
-ME_CONFIG_MONGODB_SERVER=mongodb
 ```
 
 > **_NOTA:_**  Ao startar a aplicação, para acessar a api basta acessar a seguinte url a depender da porta escolhida
