@@ -1,7 +1,6 @@
 package com.tc3.parquimetro.dominio.tempocontrol.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tc3.parquimetro.dominio.tempocontrol.emun.TipoTempo;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.Tempo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -19,7 +18,7 @@ public class TempoDto {
     @JsonProperty
     @NotNull(message = "O Tipo do Tempo não pode  ser nulo, declare: fixo ou variavel")
     //@NotEmpty (message = "O Tipo do Tempo não pode  estar em branco, declare: fixo ou variavel")
-    private TipoTempo tipoTempo; // Seleciona o tipo de Tempo se FIXO ou VARIAVEL
+    private Tempo.TipoTempo tipoTempo; // Seleciona o tipo de Tempo se FIXO ou VARIAVEL
     @JsonProperty
     private LocalDateTime inicio;
     @JsonProperty
@@ -29,6 +28,10 @@ public class TempoDto {
     @JsonProperty
     private int tempoAdicional;
 
+    public enum TipoTempo {
+        fixo,
+        variavel
+    }
 
     public TempoDto(int tempoContratado){
         this.tipoTempo = tipoTempo;
@@ -38,17 +41,17 @@ public class TempoDto {
         this.tempoAdicional = tempoAdicional;
     }
 
-    public TempoDto(Long id, int tempoContratado, TipoTempo tipoTempo, int tempoAdicional){
+    public TempoDto(Long id, int tempoContratado, Tempo.TipoTempo tipoTempo, int tempoAdicional){
         this.id = id;
         this.tipoTempo = tipoTempo;
         this.inicio = LocalDateTime.now();
 
-        if ( tipoTempo == TipoTempo.FIXO ) {
+        if ( tipoTempo == Tempo.TipoTempo.fixo ) {
             this.tempoContratado = tempoContratado;
             this.tempoAdicional = tempoAdicional;
             this.fim = inicio.plus(tempoContratado + tempoAdicional, ChronoUnit.HOURS);
-        } else if (tipoTempo == TipoTempo.VARIAVEL) {
-            // Lógica para tempo variável (caso necessário)
+        } else if (tipoTempo == Tempo.TipoTempo.variavel) {
+            // Lógica para tempo variável (caso necessário).
         }
     }
 
@@ -60,4 +63,6 @@ public class TempoDto {
         this.tempoContratado = entidade.getTempoContratado();
         this.tempoAdicional = entidade.getTempoAdicional();
     }
+
+
 }
