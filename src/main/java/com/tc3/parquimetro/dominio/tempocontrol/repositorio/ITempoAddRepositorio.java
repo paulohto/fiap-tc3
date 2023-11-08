@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ITempoAddRepositorio extends JpaRepository<TempoAdd, Long> {
+    TempoAdd findTopByOrderByNovoFimDesc();
 }
 

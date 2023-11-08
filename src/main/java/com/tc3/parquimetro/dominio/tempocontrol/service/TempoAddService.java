@@ -57,37 +57,44 @@ public class TempoAddService {
         try {
             var tempo = repoTempo.getReferenceById(tempoadd.getTempo().getId());
             var taddrepo = repoTempoAdd;
+            //var ultimoTempoAdd = taddrepo.findById(tempo.getId());
+
+            var ultimoTempoAdd = taddrepo.findTopByOrderByNovoFimDesc();
+            if (ultimoTempoAdd != null) {
+                // Obtém o ID do último TempoAdd e incrementa
+                idAdd = ultimoTempoAdd.getId() + 1;
+            }
 
             //
-            /*if ( taddrepo.count() == 0 ) {
-                tempoadd.setNovoInicio(tempo.getFim()); // salva início de tempo add como Fim de Tempo.
-                var tadd = tempoadd.getTempoAdicional();
-                tempoadd.setNovoFim(tempo.getFim().plus(tadd, ChronoUnit.HOURS));
-            } else {
-                var x = repoTempoAdd.getReferenceById(tempo.getId());
-                //var x = repoTempoAdd.getReferenceById(tempoadd.getId());
-                tempoadd.setNovoInicio(x.getNovoFim());
-                var tadd = tempoadd.getTempoAdicional();
-                tempoadd.setNovoFim( x.getNovoFim().plus(tadd, ChronoUnit.HOURS));
-            }*/
-            if ( tempo.getTempoAdd().isEmpty() ) {
+            /*if ( tempo.getTempoAdd().isEmpty() ) {
                 tempoadd.setNovoInicio(tempo.getFim());
                 var tadd = tempoadd.getTempoAdicional();
                 tempoadd.setNovoFim(tempoadd.getNovoInicio().plus(tadd, ChronoUnit.HOURS));
-
-            } else{
+            } else {
                // if ( tempoadd.getId() == 2 ) {
-                var ultimoTempoAdd = taddrepo.findById(tempo.getId());
+                //var ultimoTempoAdd = taddrepo.findById(tempo.getId());
                 tempoadd.setNovoInicio(ultimoTempoAdd.get().getNovoFim());
                 var tadd = tempoadd.getTempoAdicional();
                 tempoadd.setNovoFim(ultimoTempoAdd.get().getNovoFim().plus(tadd, ChronoUnit.HOURS));
+            }*/
+
+            if (tempo.getTempoAdd().isEmpty()) {
+                tempoadd.setNovoInicio(tempo.getFim());
+                var tadd = tempoadd.getTempoAdicional();
+                tempoadd.setNovoFim(tempoadd.getNovoInicio().plus(tadd, ChronoUnit.HOURS));
+            } else {
+                tempoadd.setNovoInicio(ultimoTempoAdd.getNovoFim());
+                var tadd = tempoadd.getTempoAdicional();
+                tempoadd.setNovoFim(ultimoTempoAdd.getNovoFim().plus(tadd, ChronoUnit.HOURS));
             }
-
-
-            //
 
             var entidade = TempoAddTempoDto.paraEntidade(tempoadd, tempo);
             var tempoAddSalvo = repoTempoAdd.save(entidade);
+
+            //
+
+            //var entidade = TempoAddTempoDto.paraEntidade(tempoadd, tempo);
+            //var tempoAddSalvo = repoTempoAdd.save(entidade);
 
             return TempoAddTempoDto.daEntidade(tempoAddSalvo);
         }catch (DataIntegrityViolationException e){
