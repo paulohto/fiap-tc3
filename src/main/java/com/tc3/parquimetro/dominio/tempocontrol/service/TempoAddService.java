@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -57,44 +58,30 @@ public class TempoAddService {
         try {
             var tempo = repoTempo.getReferenceById(tempoadd.getTempo().getId());
             var taddrepo = repoTempoAdd;
-            //var ultimoTempoAdd = taddrepo.findById(tempo.getId());
 
-            var ultimoTempoAdd = taddrepo.findTopByOrderByNovoFimDesc();
+            var ultimoTempoAdd = tempo.getTempoAdd().stream()
+                    .max(Comparator.comparing(TempoAdd::getId))
+                    .orElse(null);
             if (ultimoTempoAdd != null) {
                 // Obtém o ID do último TempoAdd e incrementa
                 idAdd = ultimoTempoAdd.getId() + 1;
             }
-
             //
-            /*if ( tempo.getTempoAdd().isEmpty() ) {
-                tempoadd.setNovoInicio(tempo.getFim());
-                var tadd = tempoadd.getTempoAdicional();
-                tempoadd.setNovoFim(tempoadd.getNovoInicio().plus(tadd, ChronoUnit.HOURS));
-            } else {
-               // if ( tempoadd.getId() == 2 ) {
-                //var ultimoTempoAdd = taddrepo.findById(tempo.getId());
-                tempoadd.setNovoInicio(ultimoTempoAdd.get().getNovoFim());
-                var tadd = tempoadd.getTempoAdicional();
-                tempoadd.setNovoFim(ultimoTempoAdd.get().getNovoFim().plus(tadd, ChronoUnit.HOURS));
-            }*/
-
             if (tempo.getTempoAdd().isEmpty()) {
                 tempoadd.setNovoInicio(tempo.getFim());
                 var tadd = tempoadd.getTempoAdicional();
                 tempoadd.setNovoFim(tempoadd.getNovoInicio().plus(tadd, ChronoUnit.HOURS));
             } else {
-                tempoadd.setNovoInicio(ultimoTempoAdd.getNovoFim());
-                var tadd = tempoadd.getTempoAdicional();
-                tempoadd.setNovoFim(ultimoTempoAdd.getNovoFim().plus(tadd, ChronoUnit.HOURS));
+                if (ultimoTempoAdd != null) {
+                    tempoadd.setNovoInicio(ultimoTempoAdd.getNovoFim());
+                    var tadd = tempoadd.getTempoAdicional();
+                    tempoadd.setNovoFim(ultimoTempoAdd.getNovoFim().plus(tadd, ChronoUnit.HOURS));
+                }
             }
 
             var entidade = TempoAddTempoDto.paraEntidade(tempoadd, tempo);
             var tempoAddSalvo = repoTempoAdd.save(entidade);
-
             //
-
-            //var entidade = TempoAddTempoDto.paraEntidade(tempoadd, tempo);
-            //var tempoAddSalvo = repoTempoAdd.save(entidade);
 
             return TempoAddTempoDto.daEntidade(tempoAddSalvo);
         }catch (DataIntegrityViolationException e){

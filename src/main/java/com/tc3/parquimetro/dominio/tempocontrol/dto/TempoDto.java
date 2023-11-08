@@ -28,8 +28,8 @@ public class TempoDto {
     //@JsonProperty
     //private int tempoAdicional;
 
-    //@JsonProperty
-    //private LocalDateTime fimAdd; // CAMPO PRA ADICIONAR TOTAL DE TEMPO: CONTRATADO FIXO + ADICIONAIS
+    @JsonProperty
+    private LocalDateTime fimAdd; // CAMPO PRA ADICIONAR TOTAL DE TEMPO: CONTRATADO FIXO + ADICIONAIS
 
     public TempoDto(int tempoContratado){
         //this.tipoTempo = tipoTempo;
