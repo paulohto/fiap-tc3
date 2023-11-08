@@ -5,9 +5,7 @@ import com.tc3.parquimetro.dominio.tempocontrol.service.TempoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -24,4 +22,11 @@ public class TempoController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand((tempoSaved.getId())).toUri();
         return ResponseEntity.created(uri).body(tempoSaved);
     }
+
+    @PutMapping("/tempo/{id}")
+    public ResponseEntity<TempoDto> update(@RequestBody TempoDto tempo, @PathVariable Long id){
+        var tempoUpdated =tempoService.update(id,tempo);
+        return ResponseEntity.ok(tempoUpdated);
+    }
+
 }
