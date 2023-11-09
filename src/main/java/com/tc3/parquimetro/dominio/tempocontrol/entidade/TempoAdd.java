@@ -29,7 +29,6 @@ public class TempoAdd {
 
     public TempoAdd(LocalDateTime novoInicio, LocalDateTime novoFim, int tempoAdicional) {
         this.tempoAdicional = tempoAdicional;
-        //this.novoInicio = novoInicio;
         this.novoInicio = tempo.getFim();
         this.novoFim = novoFim;
     }

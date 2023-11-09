@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-//import static jdk.internal.org.jline.reader.impl.LineReaderImpl.CompletionType.List;
-
 @Getter @Setter
 public class TempoTempoAddDto {
 
@@ -35,17 +33,6 @@ public class TempoTempoAddDto {
         this.tempoAdd = tempoAdd;
     }
 
-    /*public static TempoTempoAddDto daEntidade(Tempo tempo) {
-        return new TempoTempoAddDto(
-                tempo.getId(),
-                tempo.getTipoTempo(),
-                tempo.getInicio(),
-                tempo.getFim(),
-                tempo.getTempoContratado(),
-                tempo.getTempoAdd() != null ? new TempoAddDto(tempo.getTempoAdd()) : null
-        );
-    }*/
-
     public static TempoTempoAddDto daEntidade(Tempo tempo) {
         TempoTempoAddDto tempoDto = new TempoTempoAddDto();
         tempoDto.setId(tempo.getId());
@@ -62,6 +49,4 @@ public class TempoTempoAddDto {
         tempoDto.setTempoAdd(tempoAddDtoList);
         return tempoDto;
     }
-
-
 }

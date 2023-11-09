@@ -1,6 +1,5 @@
 package com.tc3.parquimetro.dominio.tempocontrol.controller;
 
-import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddTempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoTempoAddDto;
 import com.tc3.parquimetro.dominio.tempocontrol.service.TempoService;

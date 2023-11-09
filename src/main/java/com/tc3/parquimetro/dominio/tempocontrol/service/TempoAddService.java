@@ -1,6 +1,5 @@
 package com.tc3.parquimetro.dominio.tempocontrol.service;
 
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddTempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.TempoAdd;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
-import java.util.List;
 
 
 @Service
@@ -32,14 +30,6 @@ public class TempoAddService {
 
     private LocalDateTime fimTempoAdd;
     private Long idAdd = Long.valueOf(1);
-    //private Integer c = 1;
-
-    /*public TempoAddDto save(TempoAddDto tempoadd) {
-        var entidade =TempoAddDto.paraEntidade(tempoadd);
-        mapperDtoParaEntidade(tempoadd, entidade);
-        var tempoAddSalvo =repoTempoAdd.save(entidade);
-        return TempoAddDto.deEntidade(tempoAddSalvo);
-    }*/
 
     @Transactional(readOnly = true)
     public Page<TempoAddTempoDto> findAll(PageRequest page){
@@ -63,10 +53,8 @@ public class TempoAddService {
                     .max(Comparator.comparing(TempoAdd::getId))
                     .orElse(null);
             if (ultimoTempoAdd != null) {
-                // Obtém o ID do último TempoAdd e incrementa
                 idAdd = ultimoTempoAdd.getId() + 1;
             }
-            //
             if (tempo.getTempoAdd().isEmpty()) {
                 tempoadd.setNovoInicio(tempo.getFim());
                 var tadd = tempoadd.getTempoAdicional();
@@ -81,7 +69,6 @@ public class TempoAddService {
 
             var entidade = TempoAddTempoDto.paraEntidade(tempoadd, tempo);
             var tempoAddSalvo = repoTempoAdd.save(entidade);
-            //
 
             return TempoAddTempoDto.daEntidade(tempoAddSalvo);
         }catch (DataIntegrityViolationException e){
@@ -99,12 +86,10 @@ public class TempoAddService {
             throw new DatabaseException("Violação de integridade da base");
         }
     }
-
     public void mapperDtoParaEntidade(TempoAddDto dto, TempoAdd entidade){
         entidade.setId(dto.getId());
         entidade.setNovoInicio(dto.getNovoInicio());
         entidade.setNovoFim(dto.getNovoFim());
         entidade.setTempoAdicional(dto.getTempoAdicional());
     }
-
 }
