@@ -72,7 +72,6 @@ public class TempoAddService {
 
             var entidade = TempoAddTempoDto.paraEntidade(tempoadd, tempo);
             var tempoAddSalvo = repoTempoAdd.save(entidade);
-            //
 
             return TempoAddTempoDto.daEntidade(tempoAddSalvo);
         }catch (DataIntegrityViolationException e){
