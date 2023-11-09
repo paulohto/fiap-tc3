@@ -36,7 +36,6 @@ public class TempoService {
         try {
             Tempo entidade = repoTempo.getReferenceById(id);
             mapperDtoParaEntidadeTempoAdd(tempo, entidade);
-
             return new TempoDto(entidade);
         } catch(EntityNotFoundException e){
             throw new ControllerNotFoundException("Id não encontrado, id: " + id);
@@ -51,10 +50,12 @@ public class TempoService {
         entidade.setFim(dto.getFim());
         entidade.setTempoContratado(dto.getTempoContratado());
     }
+
     private void mapperDtoParaEntidadeTempoAdd(TempoDto dto, Tempo entidade){
         entidade.setTipoTempo(entidade.getTipoTempo()); // fixado
         entidade.setInicio(entidade.getInicio()); // fixado
         entidade.setFim(entidade.getFim()); // fixado
         entidade.setTempoContratado(entidade.getTempoContratado()); // fixado
     }
+
 }

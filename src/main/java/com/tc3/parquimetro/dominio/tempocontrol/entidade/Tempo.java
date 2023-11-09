@@ -1,6 +1,5 @@
 package com.tc3.parquimetro.dominio.tempocontrol.entidade;
 
-import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddTempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.emun.TipoTempo;
 import jakarta.persistence.*;
@@ -9,7 +8,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
@@ -25,6 +23,7 @@ public class Tempo {
     private LocalDateTime inicio;
     private LocalDateTime fim;
     private int tempoContratado; // Horas contratadas no modelo Tempo Fixo
+
     @OneToMany(mappedBy = "tempo")
     private List<TempoAdd> tempoAdd;
 
