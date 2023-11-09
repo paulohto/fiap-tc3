@@ -1,13 +1,14 @@
 package com.tc3.parquimetro.dominio.tempocontrol.entidade;
 
-import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoDto;
+import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddTempoDto;
+import com.tc3.parquimetro.dominio.tempocontrol.emun.TipoTempo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.yaml.snakeyaml.events.Event;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Getter @Setter
 @Entity
@@ -22,42 +23,20 @@ public class Tempo {
     private LocalDateTime inicio;
     private LocalDateTime fim;
     private int tempoContratado; // Horas contratadas no modelo Tempo Fixo
-    private int tempoAdicional;
-    private Double bill;
 
-    public Iterable<? extends TempoAdd> getTempoAdd() {
-        return null;
-    }
-
-    public enum TipoTempo {
-        fixo,
-        variavel
-    }
+    @OneToMany(mappedBy = "tempo")
+    private List<TempoAdd> tempoAdd;
 
     public Tempo(){}
-    public Tempo(Long id, int tempoContratado, TipoTempo tipoTempo, int tempoAdicional){
+    public Tempo(Long id, int tempoContratado, TipoTempo tipoTempo){
         this.id = id;
         this.tipoTempo = tipoTempo;
         this.inicio = LocalDateTime.now();
         this.tempoContratado = tempoContratado;
         this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
-        this.tempoContratado = tempoAdicional;
-
-        /*if (tipoTempo == TipoTempo.fixo) {
-            this.tempoContratado = tempoContratado;
-            this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
-        } else if (tipoTempo == TipoTempo.variavel) {
-            // Lógica para tempo variável (caso necessário).
-        }*/
     }
 
-    public Tempo(TempoDto dto){
-        this.id = dto.getId();
-        this.tipoTempo = dto.getTipoTempo();
-        this.inicio = dto.getInicio();
-        this.fim = dto.getFim();
-        this.tempoContratado = dto.getTempoContratado();
-        this.tempoAdicional = dto.getTempoAdicional();
-    }
+    public Tempo(TempoAddTempoDto dto, Tempo tempo) {
 
+    }
 }

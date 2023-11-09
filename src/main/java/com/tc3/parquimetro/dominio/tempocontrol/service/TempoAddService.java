@@ -15,6 +15,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
+
 
 @Service
 public class TempoAddService {
@@ -24,12 +28,9 @@ public class TempoAddService {
     @Autowired
     private ITempoRepositorio repoTempo;
 
-    /*public TempoAddDto save(TempoAddDto tempoadd) {
-        var entidade =TempoAddDto.paraEntidade(tempoadd);
-        mapperDtoParaEntidade(tempoadd, entidade);
-        var tempoAddSalvo =repoTempoAdd.save(entidade);
-        return TempoAddDto.deEntidade(tempoAddSalvo);
-    }*/
+    private LocalDateTime fimTempoAdd;
+    private Long idAdd = Long.valueOf(1);
+
 
     @Transactional(readOnly = true)
     public Page<TempoAddTempoDto> findAll(PageRequest page){
@@ -47,8 +48,30 @@ public class TempoAddService {
     public TempoAddTempoDto save(TempoAddTempoDto tempoadd) {
         try {
             var tempo = repoTempo.getReferenceById(tempoadd.getTempo().getId());
+            var taddrepo = repoTempoAdd;
+
+            var ultimoTempoAdd = tempo.getTempoAdd().stream()
+                    .max(Comparator.comparing(TempoAdd::getId))
+                    .orElse(null);
+            if (ultimoTempoAdd != null) {
+                // Obtém o ID do último TempoAdd e incrementa
+                idAdd = ultimoTempoAdd.getId() + 1;
+            }
+            if (tempo.getTempoAdd().isEmpty()) {
+                tempoadd.setNovoInicio(tempo.getFim());
+                var tadd = tempoadd.getTempoAdicional();
+                tempoadd.setNovoFim(tempoadd.getNovoInicio().plus(tadd, ChronoUnit.HOURS));
+            } else {
+                if (ultimoTempoAdd != null) {
+                    tempoadd.setNovoInicio(ultimoTempoAdd.getNovoFim());
+                    var tadd = tempoadd.getTempoAdicional();
+                    tempoadd.setNovoFim(ultimoTempoAdd.getNovoFim().plus(tadd, ChronoUnit.HOURS));
+                }
+            }
+
             var entidade = TempoAddTempoDto.paraEntidade(tempoadd, tempo);
             var tempoAddSalvo = repoTempoAdd.save(entidade);
+
             return TempoAddTempoDto.daEntidade(tempoAddSalvo);
         }catch (DataIntegrityViolationException e){
             throw  new DatabaseException("Tempo não encontrado");
