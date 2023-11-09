@@ -1,5 +1,6 @@
 package com.tc3.parquimetro.dominio.tempocontrol.dto;
 
+import com.tc3.parquimetro.dominio.tempocontrol.emun.TipoTempo;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.Tempo;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.TempoAdd;
 import lombok.Getter;
@@ -8,8 +9,6 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-//import static jdk.internal.org.jline.reader.impl.LineReaderImpl.CompletionType.List;
 
 @Getter @Setter
 public class TempoTempoAddDto {
@@ -23,12 +22,6 @@ public class TempoTempoAddDto {
     private List<TempoAddDto> tempoAdd;
 
     public TempoTempoAddDto() {
-
-    }
-
-    public enum TipoTempo {
-        fixo,
-        variavel
     }
 
     public TempoTempoAddDto(Long id, TipoTempo tipoTempo, LocalDateTime inicio, LocalDateTime fim, int tempoContratado, List<TempoAddDto> tempoAdd) {
@@ -39,17 +32,6 @@ public class TempoTempoAddDto {
         this.tempoContratado = tempoContratado;
         this.tempoAdd = tempoAdd;
     }
-
-    /*public static TempoTempoAddDto daEntidade(Tempo tempo) {
-        return new TempoTempoAddDto(
-                tempo.getId(),
-                tempo.getTipoTempo(),
-                tempo.getInicio(),
-                tempo.getFim(),
-                tempo.getTempoContratado(),
-                tempo.getTempoAdd() != null ? new TempoAddDto(tempo.getTempoAdd()) : null
-        );
-    }*/
 
     public static TempoTempoAddDto daEntidade(Tempo tempo) {
         TempoTempoAddDto tempoDto = new TempoTempoAddDto();
@@ -65,11 +47,6 @@ public class TempoTempoAddDto {
         }
 
         tempoDto.setTempoAdd(tempoAddDtoList);
-
         return tempoDto;
     }
-
-    private void setTipoTempo(Tempo.TipoTempo tipoTempo) {
-    }
-
 }
