@@ -1,6 +1,7 @@
 package com.tc3.parquimetro.dominio.tempocontrol.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tc3.parquimetro.dominio.tempocontrol.emun.TipoTempo;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.Tempo;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,7 @@ public class TempoCheckOutDto {
 
     private Long id;
     @JsonProperty
-    private Tempo.TipoTempo tipoTempo; // FIXO ou VARIAVEL
+    private TipoTempo tipoTempo; // FIXO ou VARIAVEL
     @JsonProperty
     private LocalDateTime inicio;
     @JsonProperty

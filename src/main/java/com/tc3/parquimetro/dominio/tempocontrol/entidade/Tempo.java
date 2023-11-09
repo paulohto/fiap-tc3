@@ -23,6 +23,7 @@ public class Tempo {
     private LocalDateTime inicio;
     private LocalDateTime fim;
     private int tempoContratado; // Horas contratadas no modelo Tempo Fixo
+    private Double bill;
 
     @OneToMany(mappedBy = "tempo")
     private List<TempoAdd> tempoAdd;
