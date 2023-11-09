@@ -2,9 +2,7 @@ package com.tc3.parquimetro.dominio.tempocontrol.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.Tempo;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import com.tc3.parquimetro.dominio.tempocontrol.emun.TipoTempo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,42 +14,28 @@ public class TempoDto {
 
     private Long id;
     @JsonProperty
-    @NotNull(message = "O Tipo do Tempo não pode  ser nulo, declare: fixo ou variavel")
-    //@NotEmpty (message = "O Tipo do Tempo não pode  estar em branco, declare: fixo ou variavel")
-    private Tempo.TipoTempo tipoTempo; // Seleciona o tipo de Tempo se FIXO ou VARIAVEL
+    private TipoTempo tipoTempo; // Seleciona o tipo de Tempo se FIXO ou VARIAVEL
     @JsonProperty
     private LocalDateTime inicio;
     @JsonProperty
     private LocalDateTime fim;
     @JsonProperty
     private int tempoContratado;
+
     @JsonProperty
-    private int tempoAdicional;
+    private LocalDateTime fimAdd; // CAMPO PRA ADICIONAR TOTAL DE TEMPO: CONTRATADO FIXO + ADICIONAIS
 
-    public enum TipoTempo {
-        fixo,
-        variavel
-    }
-
-    public TempoDto(int tempoContratado){
-        this.tipoTempo = tipoTempo;
-        this.inicio = LocalDateTime.now();
-        this.tempoContratado = tempoContratado;
-        this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS);
-        this.tempoAdicional = tempoAdicional;
-    }
-
-    public TempoDto(Long id, int tempoContratado, Tempo.TipoTempo tipoTempo, int tempoAdicional){
+    public TempoDto(Long id, int tempoContratado, TipoTempo tipoTempo){
         this.id = id;
         this.tipoTempo = tipoTempo;
-        this.inicio = LocalDateTime.now();
 
-        if ( tipoTempo == Tempo.TipoTempo.fixo ) {
+        if ( tipoTempo == TipoTempo.FIXO ) {
+            this.inicio = LocalDateTime.now();
             this.tempoContratado = tempoContratado;
-            this.tempoAdicional = tempoAdicional;
-            this.fim = inicio.plus(tempoContratado + tempoAdicional, ChronoUnit.HOURS);
-        } else if (tipoTempo == Tempo.TipoTempo.variavel) {
-            // Lógica para tempo variável (caso necessário).
+              this.fim = inicio.plus(tempoContratado, ChronoUnit.HOURS); // OK
+
+        } else if (tipoTempo == TipoTempo.VARIAVEL) {
+            this.inicio = LocalDateTime.now();
         }
     }
 
@@ -61,8 +45,6 @@ public class TempoDto {
         this.inicio = entidade.getInicio();
         this.fim = entidade.getFim();
         this.tempoContratado = entidade.getTempoContratado();
-        this.tempoAdicional = entidade.getTempoAdicional();
     }
-
 
 }
