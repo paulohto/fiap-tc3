@@ -26,20 +26,17 @@ public class TempoAddController {
         var tempoAdds = tempoAddService.findAll(pageRequest);
         return ResponseEntity.ok(tempoAdds);
     }
-
     @GetMapping("/tempoadd/{id}")
     public ResponseEntity<TempoAddTempoDto> findById(@PathVariable Long id){
         var tempoAdd = tempoAddService.findById(id);
         return ResponseEntity.ok(tempoAdd);
     }
-
     @PostMapping("/tempoadd")
     public ResponseEntity<TempoAddTempoDto> save(@Valid @RequestBody TempoAddTempoDto dto){
         var tempoAddSalvo = tempoAddService.save(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(tempoAddSalvo.getId()).toUri();
         return ResponseEntity.created(uri).body(tempoAddSalvo);
     }
-
     @DeleteMapping("/tempoadd/{id}")
     public ResponseEntity delete(@PathVariable Long id){
         tempoAddService.delete(id);
