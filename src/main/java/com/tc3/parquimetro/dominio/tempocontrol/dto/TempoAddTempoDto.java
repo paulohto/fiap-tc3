@@ -1,7 +1,6 @@
 package com.tc3.parquimetro.dominio.tempocontrol.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tc3.parquimetro.dominio.tempocontrol.emun.TipoTempo;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.Tempo;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.TempoAdd;
 import lombok.Getter;
@@ -25,9 +24,7 @@ public class TempoAddTempoDto {
 
     public TempoAddTempoDto(Long id, LocalDateTime novoInicio, LocalDateTime novoFim, int tempoAdicional, TempoDto tempo) {
         this.id = id;
-        //this.novoInicio = LocalDateTime.now();
         this.novoInicio = tempo.getFim();
-        //this.novoFim = novoFim;
         this.novoFim = novoInicio.plus(tempoAdicional, ChronoUnit.HOURS);
         this.tempoAdicional = tempoAdicional;
         this.tempo = tempo;
@@ -53,7 +50,6 @@ public class TempoAddTempoDto {
             Tempo tempo
     ) {
         tempoAdd.setTempoAdicional(dto.getTempoAdicional());
-        //tempoAdd.setNovoInicio(dto.getNovoInicio());
         tempoAdd.setNovoInicio(tempo.getFim()); // TESTE
         tempoAdd.setNovoFim(dto.getNovoFim());
         tempoAdd.setTempo(tempo);

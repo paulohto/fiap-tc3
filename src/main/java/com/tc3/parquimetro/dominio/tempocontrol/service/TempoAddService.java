@@ -1,6 +1,5 @@
 package com.tc3.parquimetro.dominio.tempocontrol.service;
 
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddTempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.entidade.TempoAdd;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
-import java.util.List;
 
 
 @Service
@@ -32,14 +30,7 @@ public class TempoAddService {
 
     private LocalDateTime fimTempoAdd;
     private Long idAdd = Long.valueOf(1);
-    //private Integer c = 1;
 
-    /*public TempoAddDto save(TempoAddDto tempoadd) {
-        var entidade =TempoAddDto.paraEntidade(tempoadd);
-        mapperDtoParaEntidade(tempoadd, entidade);
-        var tempoAddSalvo =repoTempoAdd.save(entidade);
-        return TempoAddDto.deEntidade(tempoAddSalvo);
-    }*/
 
     @Transactional(readOnly = true)
     public Page<TempoAddTempoDto> findAll(PageRequest page){
