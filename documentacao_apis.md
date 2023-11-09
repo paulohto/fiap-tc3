@@ -1,127 +1,91 @@
 <!-- # tc1-phto -->
 
-# :page_facing_up: Documentação APIs
+# :page_facing_up: Funcionalidades da Aplicação
 
-Nesse material poderá ser encontrado o conjunto de APIs desenvolvidas para cadastro de Eletrodomésticos, Pessoas e Endereços.
-Esses são os primeiros requisitos referentes ao primeiro TechChallenge da Pós: Arquitetura e Desenvolvimento em Java / FIAP.
-#
 
-## :tv: API: Cadastra Eletrodoméstico
-Endpoint: http://localhost:8081/eletrodomesticos
-<br>Essa API cadastra eletrodomésticos. A entrada deve conter um JSON com os dados obrigatórios:
+## 🕐 API: Cadastro de Tempo
+O Condutor escolhe o tipo do tempo que será contratado: FIXO ou VARIAVEL.<br>
+No caso de tempo FIXO: necessário incluir as horas contratadas.
 
-~~~json
-{ 
-  "nome":"", 
-  "modelo":"", 
-  "potencia":"", 
-  "selo":"" 
-}
-~~~
-Não sendo aceito: valores vázios ou a não declaração de alguma das chaves apresentadas.
-
-### :green_circle: Sucesso:
-Caso todos os requisitos sejam aceitos o retorno será:
-~~~~
-"Eletrodoméstico cadastrado com sucesso!"
-~~~~
-
-###  :red_circle: Erro:
-Caso algum valor não seja declarado ou alguma chave, o retorno será uma indicação de erro, como no exemplo baixo:
-#### Post:
+Endpoint: http://localhost:82/tempo
+<br>Essa API cadastra o tempo FIXO inicial:<br>
+### Entrada:
 ~~~json
 {
-"nome":"",
-"modelo":"283c",
-"potencia":"12",
-"selo":"A"
+    "tipoTempo":"FIXO",
+    "tempoContratado": 2
 }
 ~~~
-#### Retorno:
+### Retorno:
 ~~~json
 {
-"nome": "Nome não pode estar em branco e não pode ser nulo."
+    "id": 2,
+    "tipoTempo": "FIXO",
+    "inicio": "2023-11-08T22:32:27.4714841",
+    "fim": "2023-11-09T00:32:27.4714841",
+    "tempoContratado": 2
 }
 ~~~
 
-##
+## 🕐 API: Cadastro de Tempo Adicional
+Caso o condutor precise contratar, horas adicionais precisará informar: <br>
+Tempo Adicional e o Id do tempo no qual será adicionado o novo tempo.
 
-## :raising_hand: API: Cadastra Pessoa
-Endpoint: http://localhost:8081/pessoas
-<br>Essa API cadastra pessoas. A entrada deve conter um JSON com os dados obrigatórios:
-~~~json
-{ 
-    "nome":"",
-    "datanascimento": "",
-    "sexo": "",
-    "parentesco": ""
-}
-~~~
-Não sendo aceito: valores vázios ou a não declaração de alguma das chaves apresentadas.
-
-### :green_circle: Sucesso:
-Caso todos os requisitos sejam aceitos o retorno será:
-~~~~
-"Pessoa cadastrada com sucesso!"
-~~~~
-
-### :red_circle: Erro:
-Caso algum valor não seja declarado ou alguma chave, o retorno será uma indicação de erro, como no exemplo baixo:
-#### Post:
+Endpoint: http://localhost:82/tempoadd
+### Entrada:
 ~~~json
 {
-    "nome":"Paulo",
-    "datanascimento": "",
-    "sexo": "Masculino",
-    "parentesco": "Parentesco"
+    "tempoAdicional": 1,
+    "tempo": {
+        "id": 1
+       }
 }
+
 ~~~
-#### Retorno:
+### Retorno:
 ~~~json
 {
-    "datanascimento": "Data de Nascimento não pode estar em branco e não pode ser nulo."
+    "id": 1,
+    "novoInicio": "2023-11-10T00:32:27.4714841",
+    "novoFim": "2023-11-10T01:32:27.4714841",
+    "tempoContratado": 1,
+    "tempo": {
+    	"id": 2,
+    	"tipoTempo": "FIXO",
+    	"inicio": "2023-11-08T22:32:27.4714841",
+    	"fim": "2023-11-09T00:32:27.4714841",
+    	"tempoContratado": 2
+       }
 }
 ~~~
 
-##
+## 🕐 API: Visão Geral do Tempo Contratado
+Ao final o condutor terá acesso a toda informação de tempo cadastrado.
+Endpoint: http://localhost:82/tempo?pagina=0&tamanho=10
 
-## :house: API: Cadastra Endereço
-Endpoint: http://localhost:8081/enderecos
-<br>Essa API cadastra endereços. A entrada deve conter um JSON com os dados obrigatórios:
-~~~json
-{ 
-    "bairro": "",
-    "cidade": "",
-    "rua": "",
-    "estado": "",
-    "numero": ""
-}
-~~~
-Não sendo aceito: valores vázios ou a não declaração de alguma das chaves apresentadas.
-
-### :green_circle: Sucesso:
-Caso todos os requisitos sejam aceitos o retorno será:
-~~~~
-"Endereço cadastrado com sucesso!"
-~~~~
-
-### :red_circle: Erro:
-Caso algum valor não seja declarado ou alguma chave, o retorno será uma indicação de erro, como no exemplo baixo:
-#### Post:
+### Retorno:
 ~~~json
 {
-    "bairro": "Jardins",
-    "cidade": "SP",
-    "rua": "",
-    "estado": "São Paulo",
-    "numero": "600"
+    "id": 2,
+    "tipoTempo": "FIXO",
+    "inicio": "2023-11-08T22:32:27.4714841",
+    "fim": "2023-11-09T00:32:27.4714841",
+    "tempoContratado": 2,
+    "tempoAdd": [
+    {
+   		 "id": 1,
+    		"novoInicio": "2023-11-10T00:32:27.4714841",
+    		"novoFim": "2023-11-10T01:32:27.4714841",
+    		"tempoContratado": 1,
+    },
+    {
+   		 "id": 2,
+    		"novoInicio": "2023-11-10T01:32:27.4714841",
+    		"novoFim": "2023-11-10T02:32:27.4714841",
+    		"tempoContratado": 1,
+    }
+  ]
 }
-~~~
-#### Retorno:
-~~~json
-{
-    "rua": "Rua não pode estar em branco e não pode ser nulo."
-}
-~~~
 
+~~~
 
