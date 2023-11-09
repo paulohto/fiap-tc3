@@ -60,7 +60,7 @@ Endpoint: http://localhost:82/tempoadd
 ~~~
 
 ## 🕐 API: Visão Geral do Tempo Contratado
-Ao final o condutor terá acesso a toda informação de tempo cadastrado.
+Ao final o condutor terá acesso a toda informação de tempo cadastrado.<br>
 Endpoint: http://localhost:82/tempo?pagina=0&tamanho=10
 
 ### Retorno:
