@@ -57,7 +57,6 @@ public class TempoAddService {
                 // Obtém o ID do último TempoAdd e incrementa
                 idAdd = ultimoTempoAdd.getId() + 1;
             }
-            //
             if (tempo.getTempoAdd().isEmpty()) {
                 tempoadd.setNovoInicio(tempo.getFim());
                 var tadd = tempoadd.getTempoAdicional();
@@ -72,7 +71,6 @@ public class TempoAddService {
 
             var entidade = TempoAddTempoDto.paraEntidade(tempoadd, tempo);
             var tempoAddSalvo = repoTempoAdd.save(entidade);
-            //
 
             return TempoAddTempoDto.daEntidade(tempoAddSalvo);
         }catch (DataIntegrityViolationException e){

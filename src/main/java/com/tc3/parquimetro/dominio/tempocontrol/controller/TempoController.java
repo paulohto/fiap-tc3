@@ -1,6 +1,5 @@
 package com.tc3.parquimetro.dominio.tempocontrol.controller;
 
-import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoAddTempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoDto;
 import com.tc3.parquimetro.dominio.tempocontrol.dto.TempoTempoAddDto;
 import com.tc3.parquimetro.dominio.tempocontrol.service.TempoService;
@@ -29,18 +28,15 @@ public class TempoController {
         var tempos = tempoService.findAll(pageRequest);
         return ResponseEntity.ok(tempos);
     }
-
     @PostMapping("/tempo")
     public ResponseEntity<TempoDto> save(@Valid @RequestBody TempoDto tempo){
         var tempoSaved = tempoService.save(tempo);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand((tempoSaved.getId())).toUri();
         return ResponseEntity.created(uri).body(tempoSaved);
     }
-
     @PutMapping("/tempo/{id}")
     public ResponseEntity<TempoDto> update(@RequestBody TempoDto tempo, @PathVariable Long id){
         var tempoUpdated =tempoService.update(id,tempo);
         return ResponseEntity.ok(tempoUpdated);
     }
-
 }

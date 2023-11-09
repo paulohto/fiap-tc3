@@ -49,6 +49,4 @@ public class TempoTempoAddDto {
         tempoDto.setTempoAdd(tempoAddDtoList);
         return tempoDto;
     }
-
-
 }
