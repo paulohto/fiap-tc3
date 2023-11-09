@@ -16,26 +16,23 @@ public class TempoAdd {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime novoInicio;
+    private LocalDateTime novoInicio; // DEVE SER IGUAL AO FIM DA CLASS TEMPODTO
+
     private LocalDateTime novoFim;
     private int tempoAdicional;
-
-    // CRIANDO RELACIONAMENTO: UM PARA UM
-    //@OneToOne(mappedBy = "tempo")
-    //@OneToMany(mappedBy = "tempoadd")
-    //private Tempo tempo;
 
     @ManyToOne
     @JoinColumn(name = "tempo_id")
     private Tempo tempo;
 
+    public TempoAdd(){}
+
     public TempoAdd(LocalDateTime novoInicio, LocalDateTime novoFim, int tempoAdicional) {
         this.tempoAdicional = tempoAdicional;
-        this.novoInicio = novoInicio;
+        this.novoInicio = tempo.getFim();
         this.novoFim = novoFim;
     }
 
-    ///
     public TempoAdd(TempoAddDto dto){
         this.id = dto.getId();
         this.tempoAdicional = dto.getTempoAdicional();
